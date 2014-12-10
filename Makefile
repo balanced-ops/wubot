@@ -18,6 +18,7 @@ guard-%:
 	fi
 
 install: guard-DEST
+	if [ ! -d "$(DEST)" ]; then mkdir -p "$(DEST)"; fi
 	cp -pr ./$(HUBOT_SCRIPTS_LOC)/* $(DEST)
 
 all: prepare build
