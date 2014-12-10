@@ -1,6 +1,24 @@
+SHELL=/bin/bash
+DEST?=
+
+HUBOT_SCRIPTS_LOC=hubot-scripts
 NAME=balanced/wubot
 VERSION=`git describe`
 CORE_VERSION=HEAD
+
+
+.PHONY: all install guard-%
+
+
+guard-%:
+	@ if [ "${${*}}" == "" ]; then    \
+		echo "$* is required to be set!"; \
+		echo "Example: make install $*='\"/home/some/path/here\"'"; \
+		exit 1; \
+	fi
+
+install: guard-DEST
+	cp -pr ./$(HUBOT_SCRIPTS_LOC)/* $(DEST)
 
 all: prepare build
 
