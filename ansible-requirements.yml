@@ -1,0 +1,3 @@
+---
+  - src: https://github.com/balanced-ops/ansible-hubot
+    name: ansible-hubot
