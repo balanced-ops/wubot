@@ -1,0 +1,6 @@
+---
+- hosts: local
+  sudo: yes
+
+  roles:
+    - ansible-hubot

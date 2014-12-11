@@ -1,0 +1,59 @@
+---
+# this should really be the only file that changes often
+- hosts: local
+  sudo: yes
+
+  vars:
+    citadel_bucket: 'balanced-citadel'
+    hubot_secrets_dir: /etc/container_environment
+    hubot_secrets_dir_user: root
+    hubot_secrets_dir_group: root
+    hubot_node_packages:
+      - hubot-help
+      - hubot-scripts
+      - hubot-google-images
+      - hubot-google-translate
+      - hubot-calculator
+      - hubot-hipchat
+      - hubot-hipchat-emoticons
+
+    hubot_external_scripts:
+      - hubot-help
+      - hubot-google-images
+      - hubot-google-translate
+      - hubot-calculator
+      - hubot-hipchat-emoticons
+
+    hubot_runtime_environment_variables:
+      # secret variables
+      - key: HUBOT_HIPCHAT_TOKEN
+        value: "{{ lookup('citadel', '/hubot/HUBOT_HIPCHAT_TOKEN') }}"
+
+      - key: HUBOT_HIPCHAT_JID
+        value: "{{ lookup('citadel', '/hubot/HUBOT_HIPCHAT_JID') }}"
+
+      - key: HUBOT_HIPCHAT_PASSWORD
+        value: "{{ lookup('citadel', '/hubot/HUBOT_HIPCHAT_PASSWORD') }}"
+
+      # non-secret
+      - key: HUBOT_AUTH_ADMIN
+        value: wubot
+
+      - key: HUBOT_HIPCHAT_JOIN_ROOMS_ON_INVITE
+        value: true
+
+      - key: HUBOT_HIPCHAT_ROOMS
+        value: hipchat-integrations,dev
+
+  tasks:
+    - name: install wubot scripts
+      sudo_user: hubot
+      shell: >
+        make install DEST="{{ hubot_dir }}/scripts"
+        chdir=/ansibles
+
+    - name: update hubot packages
+      include: ansible-hubot/tasks/hubot_packages.yml
+
+    - name: update hubot runit services
+      include: ansible-hubot/tasks/runit.yml

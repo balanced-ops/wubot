@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 DEST?=
 
-HUBOT_SCRIPTS_LOC=hubot-scripts
+HUBOT_SCRIPTS_LOC=scripts
 NAME=balanced/wubot
 VERSION=`git describe`
 CORE_VERSION=HEAD
@@ -23,9 +23,13 @@ install: guard-DEST
 
 all: prepare build
 
-prepare:
-	git archive -o docker/wubot.tar HEAD
-	ansible-galaxy install -r ansible-requirements.yml -p `pwd`/docker --force
+base:
+	tar cvf docker/base.tar  ansible_hosts            \
+                             ansible-requirements.yml \
+                             base.yml
+
+scripts:
+	tar cvf docker/scripts.tar hubot-scripts wubot.yml Makefile
 
 build:
 	docker build -t $(NAME):$(VERSION) --rm docker
