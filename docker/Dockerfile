@@ -13,18 +13,18 @@ RUN locale-gen en_US.UTF-8
 # Install updates
 RUN apt-get -qq update && \
     apt-get install -y --no-install-recommends \
-       python-software-properties \
        software-properties-common \
        build-essential && \
     apt-add-repository ppa:ansible/ansible && \
     apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
        ansible \
        python-apt \
        curl \
-       git-core
+       git-core \
+       python-setuptools
 
-# base (doesnt change much)
+# base (doesn't change much)
 ADD ./base.tar $ANSIBLES/
 RUN ansible-galaxy install  \
          -r $ANSIBLES/ansible-requirements.yml  \
@@ -33,15 +33,18 @@ RUN ansible-galaxy install  \
                       -i $ANSIBLES/ansible_hosts \
                       -v $ANSIBLES/base.yml
 
-# changes onwards
+# customizations
+ADD ./customizations.tar $ANSIBLES/
+RUN ansible-playbook -v -c local -i $ANSIBLES/ansible_hosts $ANSIBLES/wubot.yml -t packages
+
+# scripts (changes more often)
 ADD ./scripts.tar $ANSIBLES/
-# temporarily do this while configuring wubot..
-RUN apt-get install -y --no-install-recommends python-boto && \
-    ln -s $ANSIBLES/ansible-hubot/lookup_plugins $ANSIBLES/lookup_plugins && \
-    ansible-playbook -v -c local $ANSIBLES/wubot.yml
+RUN ansible-playbook -v -c local -i $ANSIBLES/ansible_hosts $ANSIBLES/wubot.yml -t install-scripts
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Setup runit
+VOLUME ["/var/log"]
+
+# default, run runit and various goodies
 CMD ["/sbin/my_init"]

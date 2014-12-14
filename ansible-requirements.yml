@@ -1,4 +1,4 @@
 ---
   - src: https://github.com/balanced-ops/ansible-hubot
     name: ansible-hubot
-    version: adf532a0a5fbe999f1a7d196dc6efcae566050bc
+    version: 4242326d956961fbf943f047d94450d2de883026

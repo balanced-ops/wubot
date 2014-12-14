@@ -4,3 +4,9 @@
 
   roles:
     - ansible-hubot
+
+  tasks:
+    - easy_install: name=pip
+
+    - name: install pip
+      pip: name=boto version=2.34.0

@@ -1,0 +1,29 @@
+---
+hubot_node_packages:
+  - hubot-help
+  - hubot-scripts
+  - hubot-google-images
+  - hubot-google-translate
+  - hubot-calculator
+  - hubot-hipchat
+  - hubot-hipchat-emoticons
+
+hubot_external_scripts:
+  - hubot-help
+  - hubot-google-images
+  - hubot-google-translate
+  - hubot-calculator
+  - hubot-hipchat-emoticons
+
+hubot_scripts:
+  - base64.coffee
+
+hubot_runtime_environment_variables:
+  - key: HUBOT_AUTH_ADMIN
+    value: wubot
+
+  - key: HUBOT_HIPCHAT_JOIN_ROOMS_ON_INVITE
+    value: true
+
+  - key: HUBOT_HIPCHAT_ROOMS
+    value: hipchat-integrations,dev
