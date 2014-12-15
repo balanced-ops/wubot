@@ -22,27 +22,22 @@ RUN apt-get -qq update && \
        python-apt \
        curl \
        git-core \
-       python-setuptools
+       python-setuptools  && \
+    # Clean up APT when done.
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # base (doesn't change much)
 ADD ./base.tar $ANSIBLES/
 RUN ansible-galaxy install  \
-         -r $ANSIBLES/ansible-requirements.yml  \
+         -r $ANSIBLES/ansible-requirements.yml   \
          -p $ANSIBLES --force && \
     ansible-playbook -c local \
                       -i $ANSIBLES/ansible_hosts \
-                      -v $ANSIBLES/base.yml
-
-# customizations
-ADD ./customizations.tar $ANSIBLES/
-RUN ansible-playbook -v -c local -i $ANSIBLES/ansible_hosts $ANSIBLES/wubot.yml -t packages
+                      -v $ANSIBLES/wubot.yml  && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # scripts (changes more often)
-ADD ./scripts.tar $ANSIBLES/
-RUN ansible-playbook -v -c local -i $ANSIBLES/ansible_hosts $ANSIBLES/wubot.yml -t install-scripts
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ADD ./scripts.tar /opt/hubot/scripts
 
 VOLUME ["/var/log"]
 
