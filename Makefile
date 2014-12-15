@@ -24,15 +24,12 @@ install: guard-DEST
 all: prepare build
 
 base:
-	tar cvf docker/base.tar  ansible_hosts            \
-                             ansible-requirements.yml \
-                             base.yml
-
-customizations:
-	tar cvf docker/customizations.tar wubot.yml Makefile wubot_overrides.yml
+	tar cvf docker/base.tar ansible_hosts \
+	                        ansible-requirements.yml \
+                          wubot.yml Makefile wubot_overrides.yml
 
 scripts:
-	tar cvf docker/scripts.tar hubot-scripts
+	tar cvf docker/scripts.tar -C hubot-scripts .
 
 build:
 	docker build -t $(NAME):$(VERSION) --rm docker

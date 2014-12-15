@@ -1,28 +1,16 @@
 ---
-# this should really be the only file that changes often
 - hosts: local
   sudo: yes
-  gather_facts: false
 
   vars_files:
-    - ansible-hubot/defaults/main.yml
     - wubot_overrides.yml
 
+  roles:
+    - ansible-hubot
+
   tasks:
-    - name: update hubot packages
-      include: ansible-hubot/tasks/hubot_packages.yml
-      tags:
-        - packages
+    - name: easy install pip
+      easy_install: name=pip
 
-    - name: update hubot runit services
-      include: ansible-hubot/tasks/runit.yml
-      tags:
-        - packages
-
-    - name: install wubot scripts
-      sudo_user: hubot
-      shell: >
-        make install DEST="{{ hubot_dir }}/scripts"
-        chdir=/ansibles
-      tags:
-        - install-scripts
+    - name: install pip
+      pip: name=boto version=2.34.0
