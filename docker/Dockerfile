@@ -43,3 +43,6 @@ VOLUME ["/var/log"]
 
 # default, run runit and various goodies
 CMD ["/sbin/my_init"]
+
+# Expose ports(8080 for hubot)
+EXPOSE 8080

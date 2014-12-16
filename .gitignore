@@ -1,2 +1,4 @@
-.vagrantVagrantfile
+.vagrant
 secrets.env
+docker/*.tar
+.elasticbeanstalk/
