@@ -1,4 +1,8 @@
 .vagrant
 secrets.env
 docker/*.tar
-.elasticbeanstalk/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
