@@ -1,6 +1,7 @@
 .vagrant
 secrets.env
 docker/*.tar
+.ebextensions/*_secrets.config
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
