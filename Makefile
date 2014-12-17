@@ -34,12 +34,8 @@ scripts:
 build:
 	docker build -t $(NAME):$(VERSION) --rm docker
 
-pre-run:
-	ansible-playbook \
-			-c local \
-			-v assemble-secrets.yml \
-			-i ansible_hosts \
-			-e 'secrets_dir=docker'
+secrets:
+	ansible-playbook -vc local -i 'localhost,' assemble-secrets.yml
 
 run: pre-run
 	docker run --env-file ./secrets.env -d balanced/wubot
