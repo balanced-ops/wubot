@@ -7,5 +7,15 @@
         dest=/tmp/04run-envfile.patch
         mode=0644
 
+    # If the patch has not been applied then the exit code will be success
+    # http://unix.stackexchange.com/a/77737/14442
+    - name: check if 04run.sh already patched
+      shell: >
+        patch -p0 -N --dry-run --silent < /tmp/04run-envfile.patch 2>/dev/null
+        chdir=/opt
+      register: patch_result
+      ignore_errors: True
+
     - name: patch elastic beanstalk 04run.sh to respect docker --env-file
-      shell: patch -p0 < /tmp/04run-envfile.patch chdir=/opt
+      shell: patch -p0 -N < /tmp/04run-envfile.patch chdir=/opt
+      when: patch_result|success
