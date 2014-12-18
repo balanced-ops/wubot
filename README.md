@@ -45,7 +45,17 @@ FROM balanced/wubot:1.0.2
 
 This project has been engineered as a proof-of-concept for scalable deployments with AWS's Elastic Beanstalk for Docker. Hence, the easiest way to deploy this will be using AWS's `eb cli` **version 3.0 or higher**.
 
-`eb deploy`
+- Creating an environment (from scratch)
+  * `eb create wubot -ip wubot`
+  * See [.ebextensions](#.ebextensions) section below
+
+- Deploying an update
+  * add a script to the hubot-scripts folder
+  * run `make scripts`
+  * build a docker image
+  * tag docker image by bumping version
+  * push docker image to repository
+  * `eb deploy`
 
 ### .ebextensions
 
