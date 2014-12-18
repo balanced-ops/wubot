@@ -15,6 +15,28 @@ The `Vagrantfile` attached will use a `docker-host` machine as a host to build a
 
 `vagrant ssh` will ssh into the docker container
 
+### Re-using a different base image
+
+Currently, the `Vagrantfile` uses a `build_dir` setting:
+
+```ruby
+config.vm.define 'wubot' do |wubot|
+  # Sync the project directory using rsync
+  wubot.vm.provider 'docker' do |d|
+     d.build_dir = './docker/'
+     # ...
+  end
+end
+```
+
+You can read about this here: http://docs.vagrantup.com/v2/docker/configuration.html
+
+If you want to iterate on an existing image, you must change the `Dockerfile` to use:
+
+```dockerfile
+FROM balanced/wubot:1.0.2
+```
+
 ## Installing `hubot-scripts` to a destination
 
 `make install DEST='${ hubot_dir }/scripts` will copy all the scripts from the `hubot-scripts` directory to your target destination.
