@@ -5,12 +5,18 @@ Vagrant.require_version '>= 1.6.5'
 
 def populate_from_secrets
   secrets = {}
-  File.open('secrets.env', 'r') do |infile|
-    infile.each_line do |line|
-      next if line.start_with?('#')
-      key, value = line.strip.split('=')
-      secrets[key] = value
-    end
+  begin
+    infile = File.open('secrets.env', 'r')
+  rescue
+    warn "[\e[1m\e[31mWARNING\e[0m]: File secrets.env not found in #{Dir.pwd}!"
+    warn "Run: make secrets DEST=#{Dir.pwd}"
+    warn 'Returning empty secrets hash'
+    return secrets
+  end
+  infile.each_line do |line|
+    next if line.start_with?('#')
+    key, value = line.strip.split('=')
+    secrets[key] = value
   end
   secrets
 end
