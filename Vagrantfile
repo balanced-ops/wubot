@@ -31,8 +31,9 @@ Vagrant.configure(2) do |config|
     end
     # Sync the project directory using rsync
     wubot.vm.synced_folder './hubot-scripts', '/opt/hubot/scripts', :type => 'rsync'
+    # setup ssh for docker container
     wubot.ssh.username = 'root'
-    wubot.ssh.private_key_path = './phusion-insecurekey'
+    wubot.ssh.private_key_path = './docker/build/phusion-insecurekey'
   end
 
 end

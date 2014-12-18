@@ -1,0 +1,11 @@
+---
+- hosts: 127.0.0.1
+  tasks:
+    - name: copy file to tmp
+      copy: >
+        src=files/04run-envfile.patch
+        dest=/tmp/04run-envfile.patch
+        mode=0644
+
+    - name: patch elastic beanstalk 04run.sh to respect docker --env-file
+      shell: patch -p0 < /tmp/04run-envfile.patch chdir=/opt

@@ -7,8 +7,7 @@ VERSION=`git describe`
 CORE_VERSION=HEAD
 
 
-.PHONY: all install guard-%
-
+.PHONY: all install secrets patch-eb-run guard-%
 
 guard-%:
 	@ if [ "${${*}}" == "" ]; then    \
@@ -17,34 +16,54 @@ guard-%:
 		exit 1; \
 	fi
 
+# Install Hubot Scripts
+
 install: guard-DEST
 	if [ ! -d "$(DEST)" ]; then mkdir -p "$(DEST)"; fi
 	cp -pr ./$(HUBOT_SCRIPTS_LOC)/* $(DEST)
 
-all: prepare build
+# docker build
+all: base scripts
 
 base:
-	tar cvf docker/base.tar ansible_hosts \
-	                        ansible-requirements.yml \
-                          wubot.yml Makefile wubot_overrides.yml
+	env COPY_EXTENDED_ATTRIBUTES_DISABLE=true COPYFILE_DISABLE=true \
+		tar cvf docker/base.tar --exclude '\._*' \
+			-C docker/build				\
+			ansible_hosts				\
+			ansible-requirements.yml	\
+			wubot.yml					\
+			wubot_overrides.yml
 
 scripts:
-	tar cvf docker/scripts.tar -C hubot-scripts .
+	env COPY_EXTENDED_ATTRIBUTES_DISABLE=true COPYFILE_DISABLE=true \
+		tar cvf docker/scripts.tar --exclude '\._*' \
+			-C hubot-scripts .
 
+# docker commands
 build:
 	docker build -t $(NAME):$(VERSION) --rm docker
 
-secrets:
-	ansible-playbook -vc local -i 'localhost,' assemble-secrets.yml
-
-run: pre-run
+run: secrets
 	docker run --env-file ./secrets.env -d balanced/wubot
 
 tag_latest:
 	docker tag $(NAME):$(VERSION) $(NAME):latest
 
-test:
-	nosetests -sv
-
 push:
 	docker push $(NAME):$(VERSION)
+
+# deploy commands
+ifeq ("$(strip $(DEST))", "")
+secrets:
+	cd deploy && \
+		ansible-playbook -c local -i 'localhost,' assemble-secrets.yml \
+		-e secrets_dir="."
+else
+secrets:
+	cd deploy && \
+		ansible-playbook -c local -i 'localhost,' assemble-secrets.yml \
+		-e secrets_dir="$(DEST)"
+endif
+
+patch-eb-run:
+	cd deploy && ansible-playbook -vc local -i 'localhost,' patch-eb-scripts.yml
