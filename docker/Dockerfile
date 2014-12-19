@@ -36,9 +36,7 @@ RUN ansible-galaxy install  \
                       -v $ANSIBLES/wubot.yml  && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# scripts (changes more often)
-ADD ./scripts.tar /opt/hubot/scripts
-
+VOLUME ["/opt/hubot/scripts"]
 VOLUME ["/var/log"]
 
 # default, run runit and various goodies

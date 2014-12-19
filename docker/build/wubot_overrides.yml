@@ -7,6 +7,9 @@ hubot_node_packages:
   - hubot-calculator
   - hubot-hipchat
   - hubot-hipchat-emoticons
+  - node-trello
+  - twit
+  - aws-sdk
 
 hubot_external_scripts:
   - hubot-help

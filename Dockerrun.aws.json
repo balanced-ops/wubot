@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
      "Image": {
-        "Name": "balanced/wubot:1.0.2",
+        "Name": "balanced/wubot:1.0.3",
         "Update": "true"
     },
     "Ports": [
@@ -9,5 +9,11 @@
             "ContainerPort": "8080"
         }
     ],
+    "Volumes": [
+        {
+            "HostDirectory": "/opt/wubot/hubot-scripts",
+            "ContainerDirectory": "/opt/hubot/scripts"
+        }
+    ]
     "Logging": "/var/log/"
 }
