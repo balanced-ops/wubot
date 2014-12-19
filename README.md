@@ -51,10 +51,7 @@ This project has been engineered as a proof-of-concept for scalable deployments 
 
 - Deploying an update
   * add a script to the hubot-scripts folder
-  * run `make scripts`
-  * build a docker image
-  * tag docker image by bumping version
-  * push docker image to repository
+  * commit and push git repository
   * `eb deploy`
 
 ### .ebextensions

@@ -34,11 +34,6 @@ base:
 			wubot.yml					\
 			wubot_overrides.yml
 
-scripts:
-	env COPY_EXTENDED_ATTRIBUTES_DISABLE=true COPYFILE_DISABLE=true \
-		tar cvf docker/scripts.tar --exclude '\._*' \
-			-C hubot-scripts .
-
 # docker commands
 build:
 	docker build -t $(NAME):$(VERSION) --rm docker
