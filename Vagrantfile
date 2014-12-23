@@ -29,7 +29,9 @@ Vagrant.configure(2) do |config|
       d.build_dir = './docker/'
       d.cmd = ['/sbin/my_init', '--enable-insecure-key']
       d.has_ssh = true
-      d.env = populate_from_secrets
+      d.env = {:HUBOT_BOTNAME => 'wubot',
+               :HUBOT_HIPCHAT_ROOMS => 'hipchat-integrations'
+              }.merge!(populate_from_secrets)
       d.volumes = ['/var/log:/var/log']
       # vagrant options
       d.vagrant_machine = 'docker-host'

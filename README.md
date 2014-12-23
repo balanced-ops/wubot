@@ -34,6 +34,10 @@ TODO
 
 TODO
 
+#### 03_app_environment.config
+
+This file represents the equivalent of a docker `-e` flag.
+
 ## Scripting
 
 The `hubot-scripts` directory contains all the hubot scripts that will ultimately end up in the `${ hubot_dir }/scripts` directory. Just add your coffee scripts into the `hubot-scripts`.
@@ -44,7 +48,7 @@ Read this: https://github.com/github/hubot/blob/master/docs/scripting.md#scripti
 
 - https://railsmachine.com/articles/2012/05/23/building-a-bot-with-hubot/
 
-#### Testing your bot
+#### Testing your script
 
 TODO
 
@@ -54,6 +58,14 @@ The `Vagrantfile` attached will use a `docker-host` machine as a host to build a
 `wubot` installation.
 
 `vagrant ssh` will ssh into the docker container
+
+TODO: Allow overriding the name and the bot channel to avoid clashes with a pre-existing bot:
+
+- HUBOT_BOTNAME
+- HUBOT_HIPCHAT_ROOMS
+- HUBOT_ADAPTER
+
+These should be passed down from the docker run commandline as environment vars
 
 ### Re-using a different base image
 
