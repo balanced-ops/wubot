@@ -59,13 +59,11 @@ The `Vagrantfile` attached will use a `docker-host` machine as a host to build a
 
 `vagrant ssh` will ssh into the docker container
 
-TODO: Allow overriding the name and the bot channel to avoid clashes with a pre-existing bot:
+You may override anything by passing down the variable via command-lines, for example:
 
-- HUBOT_BOTNAME
-- HUBOT_HIPCHAT_ROOMS
-- HUBOT_ADAPTER
-
-These should be passed down from the docker run commandline as environment vars
+- `HUBOT_BOTNAME` will override the bot's name
+- `HUBOT_HIPCHAT_ROOMS` will override what rooms the bot joins
+- `HUBOT_ADAPTER` will override the default `hipchat` adapter
 
 ### Re-using a different base image
 
