@@ -1,15 +1,22 @@
 ---
 hubot_node_packages:
-  - hubot-help
-  - hubot-scripts
-  - hubot-google-images
-  - hubot-google-translate
-  - hubot-calculator
   - hubot-hipchat
-  - hubot-hipchat-emoticons
   - node-trello
   - twit
   - aws-sdk
+  - cheerio
+  - chrono-node
+  - hubot-help
+  - hubot-google-images
+  - hubot-google-translate
+  - hubot-calculator
+  - hubot-hipchat-emoticons
+  - hubot-pugme
+  - hubot-pager-me
+  - hubot-redis-brain
+  - hubot-fliptable
+  - hubot-devops-reactions
+  - hubot-auth
 
 hubot_external_scripts:
   - hubot-help
@@ -17,6 +24,15 @@ hubot_external_scripts:
   - hubot-google-translate
   - hubot-calculator
   - hubot-hipchat-emoticons
+  - hubot-pugme
+  - hubot-pager-me
+  - hubot-redis-brain
+  - hubot-fliptable
+  - hubot-devops-reactions
+  - hubot-auth
 
-hubot_scripts:
-  - base64.coffee
+# this is no longer necessary, if you want to add a hubot-script, just
+# copy the script directly into the hubot-scripts folder if it has no
+# dependencies, or create an npm module and go to work.
+hubot_scripts: []
+
