@@ -41,9 +41,9 @@ module.exports = (robot) ->
     msg.send theReply
 
   robot.respond /trello get token/, (msg) ->
-    msg.send "Get a token from https://trello.com/1/authorize?
-              key=#{trello_key}&name=wubot&expiration=30days&
-              response_type=token&scope=read,write"
+    msg.send ("Get a token from https://trello.com/1/authorize?" +
+              "key=#{trello_key}&name=wubot&expiration=30days&"  +
+              "response_type=token&scope=read,write")
     msg.send 'Then send it back to me as "trello add token <token>"'
 
   robot.respond /trello add token ([a-f0-9]+)/i, (msg) ->
